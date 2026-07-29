@@ -234,8 +234,8 @@ export default function CraneDetailPage() {
                       border: "1px solid var(--border)",
                       borderRadius: "8px",
                     }}
-                    formatter={(value: number) => [
-                      `${value.toLocaleString()} kg (${(value / 1000).toFixed(1)} ton)`,
+                    formatter={(value) => [
+                      `${Number(value).toLocaleString()} kg (${(Number(value) / 1000).toFixed(1)} ton)`,
                       "Capacity",
                     ]}
                     labelFormatter={(label) => `Radius: ${label}m`}
