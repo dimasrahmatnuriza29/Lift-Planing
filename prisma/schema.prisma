@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Divisi {
@@ -34,7 +34,7 @@ model Crane {
   maxBoomLength   Float    // meters
   maxRadius       Float    // meters
   outriggerLoad   Float?   // kg
-  loadChart       String   // JSON string of load chart data
+  loadChart       String   @db.Text // JSON string of load chart data
   liftPlans       LiftPlan[]
   createdAt       DateTime @default(now())
 }
@@ -92,8 +92,8 @@ model LiftPlan {
   // Risk Data
   riskScore             Float?   // 0-100 (auto-calc)
   riskLevel             String?  // low | medium | high
-  hazardsIdentified     String?  // JSON
-  mitigations           String?  // JSON
+  hazardsIdentified     String?  @db.Text // JSON
+  mitigations           String?  @db.Text // JSON
 
   // Metadata
   createdBy             String?
