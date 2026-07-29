@@ -1,0 +1,391 @@
+=====================================================================
+STEP 1: LIFT REQUEST — WORKFLOW & PENJELASAN
+=====================================================================
+Dokumentasi: Trakindo Lift Planning System POC
+Tanggal: 28 Jul 2026
+
+=====================================================================
+OVERVIEW
+=====================================================================
+Step 1 Lift Request adalah titik awal dari seluruh lift plan.
+Menentukan WHO, WHAT, WHEN, WHERE, WHY.
+
+Form Step 1:
+  1. Divisi        -> Pilih divisi (Rental/Service/Parts/Sales)
+  2. Lift Type     -> Routine atau Critical
+  3. Title         -> Nama lift plan
+  4. Date          -> Tanggal lifting
+  5. Location      -> Lokasi lifting
+
+=====================================================================
+1. PILIH DIVISI -> Menentukan KONTEKS
+=====================================================================
+
+Kenapa duluan? Karena divisi menentukan:
+  - SIAPA pembuat lift plan (operator? mechanic? warehouse?)
+  - SIAPA approval chain-nya
+  - LOKASI lifting (site customer? workshop? gudang?)
+  - JENIS beban yang umum di divisi tersebut
+
+Contoh:
+  Pilih "Rental" -> sistem tahu ini lifting di site customer,
+  approval-nya lewat Supervisor Rental -> Safety Officer ->
+  Manager Rental.
+
+=====================================================================
+2. PILIH LIFT TYPE -> Menentukan TINGKAT RISIKO
+=====================================================================
+
+Ada 2 pilihan:
+
+ROUTINE LIFT:
+  - Beban < 75% kapasitas crane
+  - Sudut sling >= 60 derajat
+  - Wind speed < 20 km/h
+  - Clearance aman
+  - Tidak ada hazard khusus
+  - Approval: 1-2 level (supervisor saja)
+
+CRITICAL LIFT:
+  - Beban > 75% kapasitas crane
+  - Atau lifting di area berbahaya (dekat power line, refinery)
+  - Atau beban > 50 ton
+  - Atau wind speed > 30 km/h
+  - Approval: 3-4 level (supervisor + safety officer + manager)
+  - WAJIB lift plan tertulis + method statement
+
+Di sistem: Lift type bisa juga auto-classify berdasarkan
+parameter (Step 6 Risk Assessment). Tapi di Step 1, user pilih
+dulu sebagai preliminary classification.
+
+Contoh nyata:
+  - Angkat engine 3.5 ton di workshop -> ROUTINE
+    (bukan area berbahaya, beban kecil)
+  - Angkat boiler 40 ton di refinery -> CRITICAL
+    (area berbahaya, beban besar)
+
+=====================================================================
+3. TITLE -> Identifikasi Lift Plan
+=====================================================================
+
+Nama yang jelas dan deskriptif.
+Format: [AKSI] [BEBAN] [LOKASI/UNIT]
+
+Contoh:
+  - "Lift Boiler 40T - Refinery Balikpapan"
+  - "Bongkar Engine Cat 320 - Workshop Balikpapan"
+  - "Unload Transmission Assembly - Gudang Jakarta"
+
+Kenapa penting? Di lapangan, rigger dan supervisor butuh tahu
+CUMA DARI JUDUL apa yang akan diangkat. Tidak ada waktu buka
+detail saat briefing.
+
+=====================================================================
+4. DATE -> Penjadwalan
+=====================================================================
+
+Kapan lifting dilakukan. Menentukan:
+  - Apakah crane available di tanggal itu?
+  - Apakah operator available?
+  - Apakah supervisor available untuk approve?
+  - Cuaca di tanggal tersebut (forecast wind speed)
+
+Workflow nyata:
+  Customer request: "Kami mau angkat boiler tanggal 5 Agustus"
+    -> Rental cek crane availability
+    -> Cek operator availability
+    -> Cek supervisor availability
+    -> Jika semua OK -> buat lift plan dengan tanggal 5 Agustus
+    -> Jika tidak OK -> negosiasi tanggal alternatif
+
+=====================================================================
+5. LOCATION -> Menentukan RISIKO LINGKUNGAN
+=====================================================================
+
+  - Site customer (rental)       -> TIDAK familiar -> risiko tinggi
+  - Workshop Trakindo (service)  -> FAMILIAR -> risiko rendah
+  - Gudang Trakindo (parts)      -> FAMILIAR -> risiko rendah
+  - Commissioning site (sales)   -> TIDAK familiar -> risiko sedang
+
+Kenapa penting? Lokasi menentukan:
+  - Ground condition (apa jenis tanahnya? perlu matting?)
+  - Overhead clearance (ada power line? pipa? struktur?)
+  - Wind exposure (open area? atau tertutup?)
+  - Akses crane (jalan masuk cukup? space setup?)
+
+=====================================================================
+FULL FLOW — DARI REQUEST SAMPAI APPROVAL
+=====================================================================
+
+STEP 1: LIFT REQUEST
+  "Saya, operator Rental, mau angkat boiler 40 ton
+   di Refinery Balikpapan tanggal 5 Agustus"
+     |
+     v
+STEP 2: LOAD ANALYSIS
+  "Boiler = 40 ton, dimensi 6x3x3m, CoG di tengah"
+     |
+     v
+STEP 3: CRANE SELECTION
+  "Pakai Cat 336 (100 ton), radius 12m,
+   capacity at radius = 65 ton, utilization = 62%"
+     |
+     v
+STEP 4: RIGGING PLAN
+  "4-leg sling, 60 derajat angle, tension = 7,700 kg/leg,
+   WLL required = 46,200 kg -> pakai 50 ton sling"
+     |
+     v
+STEP 5: SITE ASSESSMENT
+  "Ground = concrete, slope = 0 derajat, wind = 12 km/h,
+   clearance = 8m (aman), nearest obstacle = 15m"
+     |
+     v
+STEP 6: RISK ASSESSMENT
+  "Risk score = 28 (Medium), 5 hazards identified,
+   mitigations: tag lines, exclusion zone, wind monitor"
+     |
+     v
+STEP 7: REVIEW & SUBMIT
+  "Semua data dicek -> Submit -> auto-classify:
+   Routine (62% utilization, wind aman, clearance OK)"
+     |
+     v
+STEP 8: APPROVAL WORKFLOW
+  Supervisor Rental -> approve
+  Safety Officer -> approve
+  -> Status: APPROVED -> lifting boleh dilakukan
+
+=====================================================================
+INTI STEP 1
+=====================================================================
+
+Lift Request = "5W+1H" awal:
+  - WHO   (divisi)
+  - WHAT  (title)
+  - WHEN  (date)
+  - WHERE (location)
+  - WHY   (lift type)
+
+Tanpa Step 1 ini, step berikutnya tidak punya konteks.
+
+=====================================================================
+
+
+=====================================================================
+STEP 2: LOAD ANALYSIS — PENJELASAN FIELD
+=====================================================================
+
+=====================================================================
+OVERVIEW
+=====================================================================
+Form Step 2:
+
+  Load Type    -> [Engine Assembly]
+  Weight (kg)  -> [3500]            *required
+  Length (m)   -> [2.5]
+  Width (m)    -> [1.8]
+  Height (m)   -> [1.6]
+  CoG X (m)    -> [1.25]
+  CoG Y (m)    -> [0.9]
+  CoG Z (m)    -> [0.8]
+
+  -> Auto-calc: Total Load = 3,850 kg
+     (weight + 10% rigging estimate)
+
+=====================================================================
+WEIGHT (kg) — WAJIB
+=====================================================================
+
+Apa: Berat bersih beban yang akan diangkat (dalam kilogram).
+
+Kenapa wajib? Tanpa berat, TIDAK ADA perhitungan yang bisa
+dilakukan:
+  - Tidak bisa pilih crane (kapasitas vs beban)
+  - Tidak bisa hitung sling tension
+  - Tidak bisa hitung WLL
+  - Tidak bisa hitung ground pressure
+
+Sumber data berat:
+  1. Nameplate/spec sheet unit -> paling akurat
+     Contoh: Engine Cat C15 = 3,500 kg (dari spec sheet)
+
+  2. Manual book -> ada di parts catalog
+     Contoh: Counterweight Cat 336 = 8,200 kg
+
+  3. Timbangan -> jika beban sudah di pallet/crate
+     Contoh: Container parts = 5,500 kg (ditimbang di gudang)
+
+  4. Estimasi engineering -> jika tidak ada data
+     Contoh: Steel structure = volume x density (7850 kg/m3)
+
+Di dunia nyata: Operator WAJIB tahu berat pasti sebelum
+lifting. Kalau tidak tahu -> TIDAK BOLEH ANGKAT.
+Ini aturan safety.
+
+=====================================================================
+LENGTH (m) — Panjang Beban
+=====================================================================
+
+Apa: Dimensi panjang beban (sumbu X).
+
+Kenapa penting?
+  1. Menentukan radius crane minimum
+     - Beban panjang -> crane harus lebih jauh (radius besar)
+     - Contoh: Boom 12m -> crane radius minimum 8m
+       (agar boom tidak tabrak)
+
+  2. Menentukan spreader beam length
+     - Beban panjang -> spreader beam harus lebih panjang
+     - Contoh: Beban 6m panjang -> spreader beam minimum 5m
+     - Tanpa spreader beam -> sling angle terlalu kecil (bahaya)
+
+  3. Menentukan sling configuration
+     - Beban panjang -> 4-leg sling (bukan 2-leg)
+     - Attachment points harus di ujung-ujung beban
+
+Contoh:
+  Engine Cat C15:
+    Length = 2.5m -> pendek -> 2-leg sling cukup
+
+  Boom assembly crane:
+    Length = 8m -> panjang -> 4-leg + spreader beam 6m
+
+  Steel pipe:
+    Length = 12m -> sangat panjang -> 2x spreader beam (tandem lift)
+
+=====================================================================
+WIDTH (m) — Lebar Beban
+=====================================================================
+
+Apa: Dimensi lebar beban (sumbu Y).
+
+Kenapa penting?
+  1. Menentukan jarak attachment points
+     - Lebar beban -> attachment points bisa lebar ->
+       sling angle lebih baik
+     - Beban sempit -> attachment points dekat ->
+       sling angle kecil (bahaya)
+
+  2. Menentukan clearance crane
+     - Beban lebar -> butuh space lebih saat swing/rotate
+     - Contoh: Beban 3m lebar -> butuh clearance 4m di sisi crane
+
+  3. Menentukan transport route
+     - Beban lebar > 3m -> butuh jalan khusus (oversize load)
+
+Contoh:
+  Engine Cat C15:
+    Width = 1.8m -> standar -> tidak ada issue
+
+  Counterweight excavator:
+    Width = 2.5m -> cukup lebar -> cek clearance swing
+
+  Transformer:
+    Width = 4m -> oversize -> butuh escort + jalan khusus
+
+=====================================================================
+HEIGHT (m) — Tinggi Beban
+=====================================================================
+
+Apa: Dimensi tinggi beban (sumbu Z).
+
+Kenapa penting?
+  1. Menentukan boom height minimum
+     - Beban tinggi -> boom harus lebih tinggi
+     - Contoh: Beban 3m tinggi + lift height 10m ->
+       boom tip 13m+
+
+  2. Menentukan overhead clearance
+     - Beban tinggi -> lebih dekat dengan obstacle atas
+     - Contoh: Power line 15m, beban 3m, lift height 10m
+       -> clearance = 15 - 10 - 3 = 2m (harus cek!)
+
+  3. Menentukan CoG height
+     - Beban tinggi -> CoG lebih tinggi -> lebih tidak stabil
+     - Saat swing, beban tinggi bisa swing lebih liar
+
+Contoh:
+  Engine Cat C15:
+    Height = 1.6m -> rendah -> stabil, tidak ada issue
+
+  Vertical vessel/tank:
+    Height = 6m -> tinggi -> CoG tinggi -> butuh tag lines
+    -> swing control critical
+
+  Control room module:
+    Height = 4m -> tinggi -> cek overhead clearance
+
+=====================================================================
+CENTER OF GRAVITY (CoG) — Pusat Berat
+=====================================================================
+
+Apa: Titik di mana seluruh berat beban terkonsentrasi.
+3 axis:
+  - CoG X -> posisi pusat berat dari ujung kiri (sumbu panjang)
+  - CoG Y -> posisi pusat berat dari sisi kiri (sumbu lebar)
+  - CoG Z -> posisi pusat berat dari bawah (sumbu tinggi)
+
+Kenapa penting?
+  1. Menentukan posisi hook
+     - Hook HARUS di atas CoG -> beban seimbang saat diangkat
+     - Kalau hook tidak di atas CoG -> beban miring -> DANGER
+
+  2. Menentukan sling length imbalance
+     - CoG tidak di tengah -> sling kiri & kanan beda panjang
+     - Contoh: CoG X = 1.8m dari kiri, beban 3m panjang
+       -> sling kiri lebih panjang dari sling kanan
+
+  3. Menentukan stability saat swing
+     - CoG tinggi -> beban mudah terbalik (tip over)
+     - CoG rendah -> beban stabil
+
+Contoh:
+  Engine Cat C15 (symmetrical):
+    CoG X = 1.25m (tengah, panjang 2.5m)
+    CoG Y = 0.9m (tengah, lebar 1.8m)
+    CoG Z = 0.8m (rendah, tinggi 1.6m)
+    -> Seimbang, mudah diangkat
+
+  Counterweight (asymmetrical):
+    CoG X = 1.5m (tidak di tengah, panjang 3m)
+    CoG Y = 0.8m (cenderung kiri)
+    CoG Z = 0.5m (rendah)
+    -> Hook harus offset ke kanan, sling kiri lebih panjang
+
+=====================================================================
+AUTO-CALC: TOTAL LOAD
+=====================================================================
+
+Total Load = Weight + (Weight x 10%)
+           = Weight + Rigging Estimate
+
+Contoh:
+  Weight = 3,500 kg
+  Rigging estimate = 350 kg (sling + shackle + spreader beam)
+  Total Load = 3,850 kg
+
+Kenapa +10%? Karena rigging equipment juga punya berat:
+  - Sling 4-leg 50 ton = 150 kg
+  - Shackle 50 ton = 30 kg x 4 = 120 kg
+  - Spreader beam 3m = 200 kg
+  - Total rigging = 350 kg
+
+Total Load ini yang dipakai di Step 3 (Crane Selection) untuk
+cek kapasitas crane.
+
+=====================================================================
+INTI STEP 2
+=====================================================================
+
+Load Analysis = "Apa yang diangkat?"
+  - Berat (wajib)
+  - Dimensi (panjang x lebar x tinggi)
+  - CoG (pusat berat)
+
+Ini menentukan SEMUA perhitungan downstream:
+  - Crane selection
+  - Rigging plan
+  - Risk assessment
+
+=====================================================================

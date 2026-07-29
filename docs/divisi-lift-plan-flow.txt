@@ -1,0 +1,135 @@
+=====================================================================
+HUBUNGAN DIVISI DENGAN LIFT PLAN — REAL WORLD FLOW
+=====================================================================
+Dokumentasi: Trakindo Lift Planning System POC
+Tanggal: 28 Jul 2026
+
+=====================================================================
+KONTEKS TRAKINDO
+=====================================================================
+Trakindo adalah dealer Caterpillar di Indonesia. Mereka punya
+4 divisi utama yang masing-masing punya alasan berbeda kenapa
+perlu lift plan.
+
+=====================================================================
+1. DIVISI RENTAL — Paling Sering
+=====================================================================
+
+CASE:
+  Customer sewa crane Cat 336 (100 ton) untuk proyek konstruksi
+  di Balikpapan. Crane dikirim ke site customer.
+
+FLOW:
+  Customer request rental crane
+    -> Trakindo Rental divisi proses
+    -> Crane dikirim ke site + operator
+    -> SEBELUM lifting, operator WAJIB buat lift plan
+    -> Lift plan disetujui supervisor -> lifting boleh dimulai
+
+KENAPA LIFT PLAN PENTING?
+  Kalau crane jatuh/kelebihan beban di site customer ->
+  Trakindo yang tanggung jawab (karena crane milik Trakindo +
+  operator Trakindo). Lift plan = bukti bahwa Trakindo sudah
+  lakukan due diligence.
+
+CONTOH CASE NYATA:
+  - Customer mau angkat boiler 40 ton di refinery
+  - Operator Trakindo buat lift plan: crane Cat 336, radius 12m,
+    sling 4-leg 60 derajat
+  - Supervisor approve -> lifting aman -> tidak ada insiden
+
+=====================================================================
+2. DIVISI SERVICE — Internal Lifting
+=====================================================================
+
+CASE:
+  Tim service Trakindo harus bongkar engine dari unit customer
+  (excavator Cat 320) di workshop Trakindo.
+
+FLOW:
+  Customer kirim unit ke workshop Trakindo
+    -> Service divisi diagnosa: engine harus keluar
+    -> Engine weighs 3.5 ton -> perlu crane di workshop
+    -> Mechanic buat lift plan untuk bongkar engine
+    -> Supervisor service approve -> bongkar aman
+
+KENAPA LIFT PLAN PENTING?
+  Di workshop Trakindo, kalau engine jatuh saat dibongkar ->
+  cidera karyawan + kerusakan engine (engine Cat mahal).
+  Lift plan = SOP keselamatan internal.
+
+CONTOH CASE NYATA:
+  - Bongkar counterweight excavator Cat 385 (8 ton) di workshop
+  - Bongkar boom assembly crane (12 ton) untuk repair
+  - Angkat hydraulic cylinder (2 ton) untuk replacement
+
+=====================================================================
+3. DIVISI PARTS — Warehouse Lifting
+=====================================================================
+
+CASE:
+  Gudang parts Trakindo terima container berisi spare parts besar
+  (transmission assembly, engine assembly).
+
+FLOW:
+  Container tiba di gudang Trakindo
+    -> Parts divisi perlu unload dari container
+    -> Transmission assembly = 1.8 ton -> perlu forklift/crane kecil
+    -> Warehouse staff buat lift plan sederhana
+    -> Supervisor approve -> unloading aman
+
+KENAPA LIFT PLAN PENTING?
+  Kalau transmission jatuh saat unloading ->
+  kerusakan parts + cidera warehouse staff. Parts Cat sangat mahal.
+
+=====================================================================
+4. DIVISI SALES — Demo & Delivery
+=====================================================================
+
+CASE:
+  Customer beli crane baru Cat 345 (250 ton).
+  Trakindo kirim ke site customer.
+
+FLOW:
+  Customer beli unit via Sales divisi
+    -> Unit dikirim ke site customer
+    -> Commissioning: crane harus di-setup, test lift
+    -> Sales/field service buat lift plan untuk test lift
+    -> Supervisor approve -> test lift aman -> handover ke customer
+
+KENAPA LIFT PLAN PENTING?
+  Saat commissioning/demo, crane masih dalam tanggung jawab
+  Trakindo. Kalau ada insiden saat test lift ->
+  Trakindo yang jawab.
+
+=====================================================================
+KENAPA DIVISI DIPILIH DI STEP 1?
+=====================================================================
+
+Step 1: Pilih Divisi
+  |
+  v
+Menentukan:
+  1. SIAPA yang buat lift plan
+     - Operator rental
+     - Mechanic service
+     - Warehouse staff parts
+     - Field service sales
+
+  2. SIAPA yang approve
+     - Supervisor divisi tersebut
+
+  3. LOKASI lifting
+     - Site customer (rental)
+     - Workshop Trakindo (service)
+     - Gudang Trakindo (parts)
+     - Commissioning site (sales)
+
+  4. JENIS beban yang umum
+     - Rental -> beragam (tergantung request customer)
+     - Service -> component (engine, transmission, counterweight)
+     - Parts -> spare parts (transmission assembly, engine assembly)
+     - Sales -> unit assembly (commissioning, test lift)
+
+
+=====================================================================
