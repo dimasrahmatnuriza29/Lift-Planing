@@ -3,6 +3,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  // Idempotency: skip if data already exists
+  const existingDivisi = await prisma.divisi.count();
+  if (existingDivisi > 0) {
+    console.log("Seed skipped — data already exists.");
+    console.log(`Divisi: ${existingDivisi}`);
+    return;
+  }
+
   // Divisi
   const rental = await prisma.divisi.create({
     data: { name: "Rental", code: "RNT", description: "Sewa Alat Berat" },
